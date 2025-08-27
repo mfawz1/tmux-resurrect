@@ -11,6 +11,7 @@ d=$'\t'
 delimiter=$'\t'
 
 # if "quiet" script produces no output
+# repurpose SCRIPT_OUTPUT to be a session prefix input
 SCRIPT_OUTPUT="$1"
 
 grouped_sessions_format() {
@@ -236,11 +237,18 @@ remove_old_backups() {
 }
 
 save_all() {
+    #setup prefix before saving, if prefix is provided
+    if [[ -n $SCRIPT_OUTPUT ]]; then
+        #do nothing
+        unset _RESURRECT_FILE_PATH
+        unset _RESURRECT_KEYBINDS_FILE_PATH
+        RESURRECT_FILE_PREFIX=$SCRIPT_OUTPUT
+        unset $SCRIPT_OUTPUT
+    fi;
 	local resurrect_file_path="$(resurrect_file_path)"
 	local last_resurrect_file="$(last_resurrect_file)"
     local resurrect_keybinds_file_path="$(resurrect_keybinds_file_path)"
     local last_resurrect_keybinds_file_path="$(last_resurrect_keybinds_file)"
-
 	mkdir -p "$(resurrect_dir)"
 	fetch_and_dump_grouped_sessions > "$resurrect_file_path"
 	dump_panes   >> "$resurrect_file_path"
@@ -285,6 +293,7 @@ main() {
 		if show_output; then
 			stop_spinner
 			display_message "Tmux environment saved!"
+            RESURRECT_FILE_PREFIX="tmux_resurrect"
 		fi
 	fi
 }

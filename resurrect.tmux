@@ -13,11 +13,27 @@ set_save_bindings() {
 	done
 }
 
+set_named_session_save_bindings() {
+	local key_bindings=$(get_tmux_option "$save_named_session_option" "$default_named_session_save_key")
+	local key
+	for key in $key_bindings; do
+		tmux bind-key "$key" command-prompt -p session-name "run-shell \"$CURRENT_DIR/scripts/save.sh %1\""
+	done
+}
+
 set_restore_bindings() {
 	local key_bindings=$(get_tmux_option "$restore_option" "$default_restore_key")
 	local key
 	for key in $key_bindings; do
 		tmux bind-key "$key" run-shell "$CURRENT_DIR/scripts/restore.sh"
+	done
+}
+
+set_named_session_restore_bindings() {
+	local key_bindings=$(get_tmux_option "$restore_named_session_option" "$default_restore_named_session_key")
+	local key
+	for key in $key_bindings; do
+		tmux bind-key "$key" command-prompt -p session-name "run-shell \"$CURRENT_DIR/scripts/restore.sh %1\""
 	done
 }
 
@@ -34,6 +50,8 @@ set_script_path_options() {
 main() {
 	set_save_bindings
 	set_restore_bindings
+    set_named_session_save_bindings
+    set_named_session_restore_bindings
 	set_default_strategies
 	set_script_path_options
 }

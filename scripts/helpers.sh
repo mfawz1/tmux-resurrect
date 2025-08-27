@@ -128,11 +128,11 @@ resurrect_keybinds_file_path() {
 _RESURRECT_KEYBINDS_FILE_PATH="$(resurrect_keybinds_file_path)"
 
 last_resurrect_file() {
-	echo "$(resurrect_dir)/last"
+	echo "$(resurrect_dir)/last_$RESURRECT_FILE_PREFIX"
 }
 
 last_resurrect_keybinds_file() {
-	echo "$(resurrect_dir)/last_binds"
+	echo "$(resurrect_dir)/last_binds_$RESURRECT_FILE_PREFIX"
 }
 
 pane_contents_dir() {

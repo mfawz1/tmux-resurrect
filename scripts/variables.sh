@@ -3,9 +3,17 @@ default_save_key="C-s"
 save_option="@resurrect-save"
 save_path_option="@resurrect-save-script-path"
 
+
+default_named_session_save_key="C-t"
+save_named_session_option="@resurrect-save-named-session"
+
 default_restore_key="C-r"
 restore_option="@resurrect-restore"
 restore_path_option="@resurrect-restore-script-path"
+
+default_restore_named_session_key="C-f"
+restore_named_session_option="@resurrect-restore-named-session"
+
 
 # default processes that are restored
 default_proc_list_option="@resurrect-default-processes"

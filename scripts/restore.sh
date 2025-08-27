@@ -10,6 +10,8 @@ source "$CURRENT_DIR/spinner_helpers.sh"
 # delimiter
 d=$'\t'
 
+PREFIX_INPUT=$1
+
 # Global variable.
 # Used during the restore: if a pane already exists from before, it is
 # saved in the array in this variable. Later, process running in existing pane
@@ -30,14 +32,14 @@ is_line_type() {
 check_saved_session_exists() {
 	local resurrect_file="$(last_resurrect_file)"
 	if [ ! -f $resurrect_file ]; then
-		display_message "Tmux resurrect file not found!"
+		display_message "Tmux resurrect file not found! $resurrect_file"
 		return 1
 	fi
 }
 check_saved_session_keybinds_exists() {
 	local resurrect_file="$(last_resurrect_keybinds_file)"
 	if [ ! -f $resurrect_file ]; then
-		display_message "Tmux resurrect file not found!"
+		display_message "Tmux resurrect file not found! $last_resurrect_keybinds_file"
 		return 1
 	fi
 }
@@ -376,6 +378,12 @@ restore_last_session_keybinds() {
 }
 
 main() {
+    if [ -n $PREFIX_INPUT ];then
+        unset _RESURRECT_FILE_PATH
+        unset _RESURRECT_KEYBINDS_FILE_PATH
+        RESURRECT_FILE_PREFIX=$PREFIX_INPUT
+        unset $PREFIX_INPUT
+    fi;
 	if supported_tmux_version_ok && check_saved_session_exists; then
 		start_spinner "Restoring..." "Tmux restore complete!"
 		execute_hook "pre-restore-all"
@@ -397,6 +405,7 @@ main() {
 		execute_hook "post-restore-all"
 		stop_spinner
 		display_message "Tmux restore complete!"
+        RESURRECT_FILE_PREFIX="tmux_resurrect"
 	fi
 }
 main
