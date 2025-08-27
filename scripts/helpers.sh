@@ -117,8 +117,22 @@ resurrect_file_path() {
 }
 _RESURRECT_FILE_PATH="$(resurrect_file_path)"
 
+resurrect_keybinds_file_path() {
+	if [ -z "$_RESURRECT_KEYBINDS_FILE_PATH" ]; then
+		local timestamp="$(date +"%Y%m%dT%H%M%S")"
+		echo "$(resurrect_dir)/${RESURRECT_FILE_PREFIX}_keybinds_${timestamp}.${RESURRECT_FILE_EXTENSION}"
+	else
+		echo "$_RESURRECT_KEYBINDS_FILE_PATH"
+	fi
+}
+_RESURRECT_KEYBINDS_FILE_PATH="$(resurrect_keybinds_file_path)"
+
 last_resurrect_file() {
 	echo "$(resurrect_dir)/last"
+}
+
+last_resurrect_keybinds_file() {
+	echo "$(resurrect_dir)/last_binds"
 }
 
 pane_contents_dir() {

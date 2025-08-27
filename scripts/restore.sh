@@ -34,6 +34,13 @@ check_saved_session_exists() {
 		return 1
 	fi
 }
+check_saved_session_keybinds_exists() {
+	local resurrect_file="$(last_resurrect_keybinds_file)"
+	if [ ! -f $resurrect_file ]; then
+		display_message "Tmux resurrect file not found!"
+		return 1
+	fi
+}
 
 pane_exists() {
 	local session_name="$1"
@@ -363,6 +370,11 @@ cleanup_restored_pane_contents() {
 	fi
 }
 
+# restore keybinds from last session
+restore_last_session_keybinds() {
+    tmux source-file "$(last_resurrect_keybinds_file)"
+}
+
 main() {
 	if supported_tmux_version_ok && check_saved_session_exists; then
 		start_spinner "Restoring..." "Tmux restore complete!"
@@ -372,6 +384,9 @@ main() {
 		restore_window_properties >/dev/null 2>&1
 		execute_hook "pre-restore-pane-processes"
 		restore_all_pane_processes
+        if check_saved_session_keybinds_exists; then
+            restore_last_session_keybinds
+        fi
 		# below functions restore exact cursor positions
 		restore_active_pane_for_each_window
 		restore_zoomed_windows
