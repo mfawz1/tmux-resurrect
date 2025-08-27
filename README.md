@@ -7,7 +7,8 @@
 1. stores/restores keybinds(allows for custom keybinds per session)
 2. [x] DONE: allow for storing/restoring named sessions(sessions which you can give names or tags)
 3. [ ] TODO: fix a bug where I can't spawn named session from existing named session
-4. [ ] TODO: handle deleting old session files, maybe the ability to delete files with a key binding
+4. [ ] TODO: fix a bug where storing session with existing name twice breaks symlink
+5. [ ] TODO: handle deleting old session files, maybe the ability to delete files with a key binding
 
 
 Restore `tmux` environment after system restart.
