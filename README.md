@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/tmux-plugins/tmux-resurrect.svg?branch=master)](https://travis-ci.org/tmux-plugins/tmux-resurrect)
 
+## this branch is out of sync from main as of 27-August-2025
+### Added features
+1. stores/restores keybinds(allows for custom keybinds per session)
+2. [ ] TODO: allow for storing/restoring named sessions(sessions which you can give names or tags)
+
+
 Restore `tmux` environment after system restart.
 
 Tmux is great, except when you have to restart the computer. You lose all the
